@@ -13,6 +13,12 @@
         android:theme="@style/Theme.RentandHireCars"
         tools:targetApi="31">
         <activity
+            android:name=".BookingCarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddVechicleActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
