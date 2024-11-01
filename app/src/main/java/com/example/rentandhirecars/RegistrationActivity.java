@@ -48,7 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
 // Redirect user to login page
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish(); // Finish current activity to prevent going back to registration page
+                finish();
             }
         });
     }

@@ -41,16 +41,16 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please enter both email and password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//// Check if the entered email and password match the stored credentials
-//                if (userEmail.equals(storedEmail) && userPassword.equals(storedPassword)) {
-//// Start the UserViewActivity if login is successful
-//                    Intent intent = new Intent(LoginActivity.this, UserViewActivity.class);
-//                    startActivity(intent);
-//                    finish(); // Finish current activity to prevent going back to login page
-//                } else {
-//// Show an error message if login fails
-//                    Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-//                }
+// Check if the entered email and password match the stored credentials
+                if (userEmail.equals(storedEmail) && userPassword.equals(storedPassword)) {
+// Start the UserViewActivity if login is successful
+                    Intent intent = new Intent(LoginActivity.this, UserViewActivity.class);
+                    startActivity(intent);
+                    finish(); // Finish current activity to prevent going back to login page
+                } else {
+// Show an error message if login fails
+                    Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 // Set onClickListener for register TextView
