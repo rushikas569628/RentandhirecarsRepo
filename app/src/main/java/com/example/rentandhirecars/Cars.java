@@ -1,6 +1,5 @@
 package com.example.rentandhirecars;
 
-
 public class Cars {
     private int id;
     private String name,Model,Milleage;
