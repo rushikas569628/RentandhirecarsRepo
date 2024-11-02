@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 public class PaymentActivity extends AppCompatActivity {
     private Button back;
+    private Button chat;
     private Button btnpay,btndsubmit;
     private EditText ETdays;
     private TextView TVprice;
@@ -34,11 +35,13 @@ public class PaymentActivity extends AppCompatActivity {
     public void initComponents() {
         //Register Button
         back = findViewById(R.id.back1);
+        //chat=findViewById(R.id.chat);
         btnpay = findViewById(R.id.btnpay);
 
     }
     private void clickListenHandler() {
         back = findViewById(R.id.back1);
+        chat = findViewById(R.id.chat);
         btnpay = findViewById(R.id.btnpay);
         btndsubmit = findViewById(R.id.btnprice);
         ETdays = findViewById(R.id.ETdays);
@@ -65,6 +68,14 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Start the UserViewActivity
                 Intent intent = new Intent(PaymentActivity.this, UserViewActivity.class);
+                startActivity(intent);
+            }
+        });
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the UserViewActivity
+                Intent intent = new Intent(PaymentActivity.this, MessageActivity.class);
                 startActivity(intent);
             }
         });
