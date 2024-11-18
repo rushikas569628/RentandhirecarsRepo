@@ -82,17 +82,18 @@
         android:id="@+id/chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="chat"
-        tools:layout_editor_absoluteX="167dp"
-        tools:layout_editor_absoluteY="667dp"
-        tools:ignore="MissingConstraints" />
+        android:text="Chat"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toEndOf="@+id/back1"
+        app:layout_constraintTop_toTopOf="@+id/back1"
+        app:layout_constraintBottom_toBottomOf="@+id/back1" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="378dp"
         android:layout_height="219dp"
         android:layout_marginTop="68dp"
-        android:text="TextView"
+        android:text="Enter Days and click Price"
         app:layout_constraintBottom_toTopOf="@+id/payment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
