@@ -1,8 +1,8 @@
 package com.example.rentandhirecars;
 
 public class Message {
-    private String sender;
-    private String content;
+    private String sender; // "user" or "bot"
+    private String content; // The content of the message
 
     public Message(String sender, String content) {
         this.sender = sender;

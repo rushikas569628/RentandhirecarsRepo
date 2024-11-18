@@ -1,6 +1,5 @@
 package com.example.rentandhirecars;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +19,7 @@ public class MessageActivity extends AppCompatActivity {
     private List<Message> messageList;
     private EditText editTextMessage;
     private Button buttonSend;
-    private ImageView backButton; // Declare the back button
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.chatRecyclerView);
         editTextMessage = findViewById(R.id.userMessageInput);
         buttonSend = findViewById(R.id.buttonSend);
-        backButton = findViewById(R.id.backButton); // Initialize the back button
+        backButton = findViewById(R.id.backButton);
 
         // Set up RecyclerView
         messageList = new ArrayList<>();
@@ -46,7 +45,7 @@ public class MessageActivity extends AppCompatActivity {
                 String userMessage = editTextMessage.getText().toString().trim();
                 if (!userMessage.isEmpty()) {
                     // Add user message to the list
-                    messageList.add(new Message(userMessage, "user"));
+                    messageList.add(new Message("user", userMessage));
                     messageAdapter.notifyItemInserted(messageList.size() - 1);
                     recyclerView.scrollToPosition(messageList.size() - 1);
 
@@ -75,7 +74,6 @@ public class MessageActivity extends AppCompatActivity {
         // Simple bot response logic with prebuilt answers
         String botResponse;
 
-        // Check for specific keywords or questions and provide responses
         if (userMessage.toLowerCase().contains("how to rent a car")) {
             botResponse = "To rent a car, go to the Rent Car page, choose your desired car, select the dates, and confirm your booking.";
         } else if (userMessage.toLowerCase().contains("how to list my car")) {
@@ -85,12 +83,11 @@ public class MessageActivity extends AppCompatActivity {
         } else if (userMessage.toLowerCase().contains("cancellation policy")) {
             botResponse = "You can cancel your booking up to 24 hours before the rental start time for a full refund. Check our Cancellation Policy for details.";
         } else {
-            // Default response for unrecognized messages
             botResponse = "I'm here to help! Please ask me about renting, listing cars, payments, or our policies.";
         }
 
         // Add the bot response to the message list
-        messageList.add(new Message(botResponse, "bot"));
+        messageList.add(new Message("bot", botResponse));
         messageAdapter.notifyItemInserted(messageList.size() - 1);
         recyclerView.scrollToPosition(messageList.size() - 1);
     }

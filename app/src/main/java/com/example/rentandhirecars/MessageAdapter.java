@@ -29,15 +29,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messageList.get(position);
 
-        // Check the sender and set the message text accordingly
+        // Set the message text based on the sender
+        holder.textViewMessage.setText(message.getContent());
+
+        // Check the sender and set the background resource accordingly
         if (message.getSender().equals("user")) {
-            holder.textViewMessage.setText("You: " + message.getContent());
-            //holder.textViewMessage.setBackgroundResource(R.drawable.user_message_background); // Custom background for user message
-            holder.textViewMessage.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END); // Align text to the end
+            holder.textViewMessage.setBackgroundResource(R.drawable.user_message_background); // Custom background for user message
+            holder.textViewMessage.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END); // Align text to the end (right)
         } else {
-            holder.textViewMessage.setText("Bot: " + message.getContent());
-            //holder.textViewMessage.setBackgroundResource(R.drawable.bot_message_background); // Custom background for bot message
-            holder.textViewMessage.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START); // Align text to the start
+            holder.textViewMessage.setBackgroundResource(R.drawable.bot_message_background); // Custom background for bot message
+            holder.textViewMessage.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START); // Align text to the start (left)
         }
     }
 
