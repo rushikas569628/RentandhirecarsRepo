@@ -26,7 +26,10 @@
             android:exported="false" />
         <activity android:name=".PaymentActivity"
             android:exported="false" />
-        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".ResetPasswordActivity"
+            android:exported="false"/>
+        <activity android:name=".MessageActivity"
+            android:exported="false" />
 
 
         <activity
