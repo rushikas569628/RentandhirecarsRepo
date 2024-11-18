@@ -1,22 +1,34 @@
 package com.example.rentandhirecars;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class RegistrationActivity extends AppCompatActivity {
     private EditText emailRegister;
     private EditText passwordRegister;
     private EditText confirmPassword;
     private Button signUp;
     private SharedPreferences sharedPreferences;
+
+    FirebaseAuth fAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +51,13 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordRegister = findViewById(R.id.passwordRegister);
         confirmPassword = findViewById(R.id.confirmPassword);
         signUp = findViewById(R.id.signUp);
+        fAuth=FirebaseAuth.getInstance();
 
+        if(fAuth.getCurrentUser()!=null){
+            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         // Set onClickListener for signUp button
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +66,21 @@ public class RegistrationActivity extends AppCompatActivity {
                 String password = passwordRegister.getText().toString();
                 String confirm = confirmPassword.getText().toString();
 
+                if(TextUtils.isEmpty(email)){
+                    emailRegister.setError("Email is required");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(password)){
+                    passwordRegister.setError("password is required");
+                    return;
+                }
+                /**
+                 if(passwordRegister.length()>4){
+                 passwordRegister.setError("password must be less than or equal to 4 characters");
+                 return;
+                 }
+                 **/
                 // Check if password and confirm password match
                 if (!password.equals(confirm)) {
                     Toast.makeText(RegistrationActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
@@ -59,14 +92,28 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.putString("email", email);
                 editor.putString("password", password);
                 editor.apply();
+                /**
+                 // Show a toast message to indicate successful registration
+                 Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
 
-                // Show a toast message to indicate successful registration
-                Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-
-                // Redirect user to login page
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                 // Redirect user to login page
+                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                 startActivity(intent);
+                 finish();
+                 **/
+                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(RegistrationActivity.this, "User Registered",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(RegistrationActivity.this,"Error: "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
