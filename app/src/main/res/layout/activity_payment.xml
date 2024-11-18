@@ -84,7 +84,8 @@
         android:layout_height="wrap_content"
         android:text="chat"
         tools:layout_editor_absoluteX="167dp"
-        tools:layout_editor_absoluteY="667dp" />
+        tools:layout_editor_absoluteY="667dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView"
@@ -137,17 +138,28 @@
         app:layout_constraintVertical_bias="0.24" />
 
     <EditText
-        android:id="@+id/ETcardnum"
-        android:layout_width="wrap_content"
+        android:id="@+id/ETname"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Card Number"
-        android:inputType="text"
-        android:maxLength="12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        android:hint="Name"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <EditText
+        android:id="@+id/ETcardnum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Card Number"
+        android:inputType="number"
+        android:maxLength="12"
+        app:layout_constraintTop_toBottomOf="@+id/ETname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

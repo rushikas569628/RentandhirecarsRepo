@@ -1,10 +1,10 @@
 package com.example.rentandhirecars;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,33 +12,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PaymentActivity extends AppCompatActivity {
-    private Button back;
-    private Button chat;
-    private Button btnpay,btndsubmit;
-    private EditText ETdays;
+    private Button back, chat, btnpay, btndsubmit;
+    private EditText ETdays, ETcardnum, ETname;
     private TextView TVprice;
-    private EditText ETcardnum;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
         ETdays = findViewById(R.id.ETdays);
         TVprice = findViewById(R.id.TVprice);
+        ETname = findViewById(R.id.ETname);
+        ETcardnum = findViewById(R.id.ETcardnum);
+
         initComponents();
         clickListenHandler();
-
     }
 
     public void initComponents() {
-        //Register Button
         back = findViewById(R.id.back1);
-        //chat=findViewById(R.id.chat);
         btnpay = findViewById(R.id.btnpay);
-
     }
+
     private void clickListenHandler() {
         back = findViewById(R.id.back1);
         chat = findViewById(R.id.chat);
@@ -47,37 +43,48 @@ public class PaymentActivity extends AppCompatActivity {
         ETdays = findViewById(R.id.ETdays);
         TVprice = findViewById(R.id.TVprice);
         ETcardnum = findViewById(R.id.ETcardnum);
-        btndsubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int days = Integer.parseInt(ETdays.getText().toString());
-                int price = 100 + (days - 1) * 100;
-                TVprice.setText("$" + price);
+        ETname = findViewById(R.id.ETname);
+
+        btndsubmit.setOnClickListener(v -> {
+            int days;
+            try {
+                days = Integer.parseInt(ETdays.getText().toString());
+            } catch (NumberFormatException e) {
+                Toast.makeText(PaymentActivity.this, "Please enter valid number of days", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-        btnpay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(PaymentActivity.this, "Payment Successful", Toast.LENGTH_SHORT).show();
-            }
+            int price = 100 + (days - 1) * 100;
+            TVprice.setText("$" + price);
         });
 
-        //login Listener
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start the UserViewActivity
-                Intent intent = new Intent(PaymentActivity.this, UserViewActivity.class);
-                startActivity(intent);
+        btnpay.setOnClickListener(v -> {
+            String name = ETname.getText().toString().trim();
+            String cardNum = ETcardnum.getText().toString().trim();
+
+            if (TextUtils.isEmpty(name)) {
+                ETname.setError("Name is required");
+                return;
             }
+            if (TextUtils.isEmpty(cardNum)) {
+                ETcardnum.setError("Card number is required");
+                return;
+            }
+            if (cardNum.length() != 12 || !cardNum.matches("\\d+")) {
+                ETcardnum.setError("Card number must be 12 digits");
+                return;
+            }
+
+            Toast.makeText(PaymentActivity.this, "Payment Successful", Toast.LENGTH_SHORT).show();
         });
-        chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start the UserViewActivity
-                Intent intent = new Intent(PaymentActivity.this, MessageActivity.class);
-                startActivity(intent);
-            }
+
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentActivity.this, UserViewActivity.class);
+            startActivity(intent);
+        });
+
+        chat.setOnClickListener(v -> {
+            Intent intent = new Intent(PaymentActivity.this, MessageActivity.class);
+            startActivity(intent);
         });
     }
 }
