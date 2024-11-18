@@ -14,6 +14,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText emailInput;
     private Button resetButton;
+    private Button backButton; // Declare the back button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         emailInput = findViewById(R.id.email_input);
         resetButton = findViewById(R.id.reset_button);
+        backButton = findViewById(R.id.back_button);
 
         // Set the reset password button's onClickListener
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +44,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 // Redirect to LoginActivity after resetting password
                 Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();  // Finish the reset password activity
+                finish();
+            }
+        });
+
+        // Set the back button's onClickListener
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redirect to LoginActivity
+                Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish(); 
             }
         });
     }
