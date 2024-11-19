@@ -78,7 +78,7 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentActivity.this, UserViewActivity.class);
+            Intent intent = new Intent(PaymentActivity.this, BookingCarActivity.class);
             startActivity(intent);
         });
 
