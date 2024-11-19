@@ -75,12 +75,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     passwordRegister.setError("password is required");
                     return;
                 }
-                /**
-                 if(passwordRegister.length()>4){
-                 passwordRegister.setError("password must be less than or equal to 4 characters");
+
+                 if(passwordRegister.length()<3){
+                 passwordRegister.setError("Password must be at least 6 characters, including letters, numbers, and symbols");
                  return;
                  }
-                 **/
+
+
                 // Check if password and confirm password match
                 if (!password.equals(confirm)) {
                     Toast.makeText(RegistrationActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
