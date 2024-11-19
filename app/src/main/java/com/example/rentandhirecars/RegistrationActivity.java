@@ -122,7 +122,7 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
-        
+
     //password validation for specific pattern
     private boolean isValidPassword(String password) {
         // Regex to check for at least one letter, one number, one special character, and 6+ characters
