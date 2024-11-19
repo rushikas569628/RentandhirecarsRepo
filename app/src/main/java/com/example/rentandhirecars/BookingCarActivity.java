@@ -74,7 +74,7 @@ public class BookingCarActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BookingCarActivity.this, AddVechicleActivity.class);
+                Intent intent = new Intent(BookingCarActivity.this, RecycleViewAdapter.class);
                 startActivity(intent);
             }
         });
