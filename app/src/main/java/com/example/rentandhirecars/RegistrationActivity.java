@@ -76,11 +76,15 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-                 if(passwordRegister.length()<3){
-                 passwordRegister.setError("Password must be at least 6 characters, including letters, numbers, and symbols");
-                 return;
-                 }
+//                 if(passwordRegister.length()<3){
+//                 passwordRegister.setError("Password must be at least 6 characters, including letters, numbers, and symbols");
+//                 return;
+//                 }
 
+                if (!isValidPassword(password)) {
+                    passwordRegister.setError("Password must be at least 6 characters, including letters, numbers, and symbols");
+                    return;
+                }
 
                 // Check if password and confirm password match
                 if (!password.equals(confirm)) {
@@ -117,6 +121,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+        
+    //password validation for specific pattern
+    private boolean isValidPassword(String password) {
+        // Regex to check for at least one letter, one number, one special character, and 6+ characters
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{6,}$";
+        return password.matches(passwordPattern);
     }
 
     // Handle back button click in the toolbar
