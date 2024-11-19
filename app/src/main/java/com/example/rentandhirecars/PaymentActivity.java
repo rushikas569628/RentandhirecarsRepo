@@ -77,9 +77,15 @@ public class PaymentActivity extends AppCompatActivity {
             Toast.makeText(PaymentActivity.this, "Payment Successful", Toast.LENGTH_SHORT).show();
         });
 
+        // Back button functionality
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(PaymentActivity.this, BookingCarActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent();
+            intent.putExtra("carName", getIntent().getStringExtra("carName"));
+            intent.putExtra("carImage", getIntent().getIntExtra("carImage", R.drawable.rent));
+            intent.putExtra("Model", getIntent().getStringExtra("Model"));
+            intent.putExtra("Milleage", getIntent().getStringExtra("Milleage"));
+            setResult(RESULT_OK, intent); // Send result back to BookingCarActivity
+            finish(); // Close PaymentActivity
         });
 
         chat.setOnClickListener(v -> {
