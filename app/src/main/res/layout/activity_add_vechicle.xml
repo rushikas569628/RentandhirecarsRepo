@@ -23,7 +23,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="729dp"
-                android:background="#4FC1F4">
+                android:background="#FFFFFF">
 
                 <EditText
                     android:id="@+id/ET_model"
