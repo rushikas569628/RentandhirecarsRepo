@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,78 +12,72 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView register;
-    private TextView forgotPassword;  // Reference for forgot password TextView
-    private EditText email;
-    private EditText password;
+    private EditText email, password;
     private Button loginButton;
-    private SharedPreferences sharedPreferences;
+    private TextView register, forgotPassword;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("user_credentials", Context.MODE_PRIVATE);
-
         // Initialize views
-        register = findViewById(R.id.register);
-        forgotPassword = findViewById(R.id.forgot_password);  // Initialize forgot password TextView
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.login);
+        register = findViewById(R.id.register);
+        forgotPassword = findViewById(R.id.forgot_password);
 
-        // Set onClickListener for login button
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Login button listener
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String userEmail = email.getText().toString().trim();
                 String userPassword = password.getText().toString().trim();
 
-                // Retrieve stored email and password from SharedPreferences
-                String storedEmail = sharedPreferences.getString("email", "");
-                String storedPassword = sharedPreferences.getString("password", "");
-
-                // Check if email and password are empty
-                if (userEmail.isEmpty() || userPassword.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Please enter both email and password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(userEmail)) {
+                    email.setError("Email is required");
                     return;
                 }
 
-                // Check if the entered email and password match the stored credentials
-                if (userEmail.equals(storedEmail) && userPassword.equals(storedPassword)) {
-                    // Start the UserViewActivity if login is successful
-                    Intent intent = new Intent(LoginActivity.this, UserViewActivity.class);
-                    startActivity(intent);
-                    finish(); // Finish current activity to prevent going back to login page
-                } else {
-                    // Show an error message if login fails
-                    Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(userPassword)) {
+                    password.setError("Password is required");
+                    return;
                 }
+
+                // Authenticate with Firebase
+                mAuth.signInWithEmailAndPassword(userEmail, userPassword)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, UserViewActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
 
-        // Set onClickListener for register TextView
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(intent);
-            }
+        // Register listener
+        register.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+            startActivity(intent);
         });
 
-        // Set onClickListener for forgot password TextView
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open ResetPasswordActivity when the user clicks on Forgot Password
-                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
-                startActivity(intent);
-            }
+        // Forgot Password listener
+        forgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+            startActivity(intent);
         });
     }
 }
