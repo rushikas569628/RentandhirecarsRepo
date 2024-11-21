@@ -5,8 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    tools:context=".UserViewActivity">
 
+    <!-- Title TextView -->
     <TextView
         android:id="@+id/rentCar"
         android:layout_width="wrap_content"
@@ -22,18 +24,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Add Car Button -->
     <Button
         android:id="@+id/addCar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#000000"
         android:text="Add Car"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@id/rentCar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/carList"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- RecyclerView for the car list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carList"
         android:layout_width="0dp"
@@ -42,6 +45,18 @@
         app:layout_constraintTop_toBottomOf="@id/addCar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation" />
+
+    <!-- Bottom Navigation Bar -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
