@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +23,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText emailRegister;
     private EditText passwordRegister;
     private EditText confirmPassword;
+    private EditText fullName; // Added Full Name field
     private Button signUp;
     private SharedPreferences sharedPreferences;
 
@@ -47,39 +47,49 @@ public class RegistrationActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("user_credentials", Context.MODE_PRIVATE);
 
         // Initialize views
+        fullName = findViewById(R.id.fullName); // Initialize Full Name field
         emailRegister = findViewById(R.id.emailRegister);
         passwordRegister = findViewById(R.id.passwordRegister);
         confirmPassword = findViewById(R.id.confirmPassword);
         signUp = findViewById(R.id.signUp);
-        fAuth=FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance();
 
-        if(fAuth.getCurrentUser()!=null){
+        // Check if the user is already logged in
+        if (fAuth.getCurrentUser() != null) {
             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
+
         // Set onClickListener for signUp button
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = fullName.getText().toString().trim(); // Get Full Name
                 String email = emailRegister.getText().toString().trim();
                 String password = passwordRegister.getText().toString();
                 String confirm = confirmPassword.getText().toString();
 
-                if(TextUtils.isEmpty(email)){
+                // Validate Full Name
+                if (TextUtils.isEmpty(name)) {
+                    fullName.setError("Full Name is required");
+                    return;
+                }
+
+                if (!isValidName(name)) {
+                    fullName.setError("Full Name must contain only alphabets");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(email)) {
                     emailRegister.setError("Email is required");
                     return;
                 }
 
-                if(TextUtils.isEmpty(password)){
-                    passwordRegister.setError("password is required");
+                if (TextUtils.isEmpty(password)) {
+                    passwordRegister.setError("Password is required");
                     return;
                 }
-
-//                 if(passwordRegister.length()<3){
-//                 passwordRegister.setError("Password must be at least 6 characters, including letters, numbers, and symbols");
-//                 return;
-//                 }
 
                 if (!isValidPassword(password)) {
                     passwordRegister.setError("Password must be at least 6 characters, including letters, numbers, and symbols");
@@ -92,30 +102,24 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Store the email and password in SharedPreferences
+                // Store the email, password, and full name in SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", email);
                 editor.putString("password", password);
+                editor.putString("name", name); // Store Full Name
                 editor.apply();
-                /**
-                 // Show a toast message to indicate successful registration
-                 Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
 
-                 // Redirect user to login page
-                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                 startActivity(intent);
-                 finish();
-                 **/
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                // Register user with Firebase
+                fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(RegistrationActivity.this, "User Registered",Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegistrationActivity.this, "User Registered", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                             startActivity(intent);
-                        }
-                        else{
-                            Toast.makeText(RegistrationActivity.this,"Error: "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(RegistrationActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -123,18 +127,23 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-    //password validation for specific pattern
+    // Password validation for specific pattern
     private boolean isValidPassword(String password) {
         // Regex to check for at least one letter, one number, one special character, and 6+ characters
         String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{6,}$";
         return password.matches(passwordPattern);
     }
 
-    // Handle back button click in the toolbar
+    // Full Name validation for alphabets only
+    private boolean isValidName(String name) {
+        // Regex to check for alphabets only
+        String namePattern = "^[A-Za-z ]+$";
+        return name.matches(namePattern);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Navigate back to LoginActivity
             Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
