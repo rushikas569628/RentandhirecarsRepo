@@ -1,5 +1,6 @@
 package com.example.rentandhirecars;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -63,7 +64,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navigate back to the PaymentsActivity
-                Intent intent = new Intent(MessageActivity.this, PaymentActivity.class);
+                Intent intent = new Intent(MessageActivity.this, UserViewActivity.class);
                 startActivity(intent);
                 finish();
             }
