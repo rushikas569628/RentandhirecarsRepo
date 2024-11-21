@@ -23,7 +23,6 @@
         android:id="@+id/rentalCar2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FF9800"
         android:fontFamily="cursive"
         android:text="RentalCar"
         android:textSize="48sp"
