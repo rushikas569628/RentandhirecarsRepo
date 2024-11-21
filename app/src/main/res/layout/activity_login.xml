@@ -47,7 +47,7 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:textColor="@android:color/white"
+        android:textColor="@color/purple"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +90,7 @@
         android:layout_height="42dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:textColor="@android:color/white"
+        android:textColor="@color/purple"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="forgot password?"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
@@ -131,7 +131,7 @@
         android:layout_marginStart="52dp"
         android:layout_marginBottom="156dp"
         android:text="Ready to become our member?"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/login" />
 
