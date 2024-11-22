@@ -9,6 +9,6 @@
         android:title="Chat" />
     <item
         android:id="@+id/nav_about"
-        android:icon="@drawable/about"
+        android:icon="@drawable/log"
         android:title="About" />
 </menu>
